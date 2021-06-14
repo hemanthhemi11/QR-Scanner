@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Scanner</string>
+    <string name="some_error">something went wrong</string>
+    <string name="internet">Check internet connection!</string>
+    <string name="confirm_exit">Tap again to exit</string>
+    <string name="preview_area">Preview Area</string>
+    <string name="capture">Capture</string>
+    <string name="no_data">scan history is empty</string>
+</resources>

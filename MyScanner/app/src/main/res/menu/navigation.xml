@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/qr_scanner"
+        android:title="QR Scanner"
+        android:icon="@drawable/ic_action_qr_code"/>
+    <item
+        android:id="@+id/history"
+        android:title="Scan History"
+        android:icon="@drawable/ic_action_history"/>
+
+</menu>
