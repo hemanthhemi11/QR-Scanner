@@ -1,6 +1,8 @@
 package com.example.myscanner.ui.fragment.history;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,19 +15,18 @@ import com.example.myscanner.injection.component.FragmentComponent;
 import java.util.List;
 import javax.inject.Inject;
 import butterknife.BindView;
+import com.example.myscanner.databinding.FragmentHostoryBinding;
 
 public class HistoryFragment extends BaseFragment implements HistoryView {
 
     @Inject HistoryPresenter historyPresenter;
-    @BindView(R.id.recyclerview)
-    RecyclerView recyclerView;
-    @BindView(R.id.no_data)
-    TextView noData;
     ListAdapter listAdapter;
+    FragmentHostoryBinding fragmentHostoryBinding;
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_hostory;
+    protected View getLayout(LayoutInflater inflater, ViewGroup container, boolean b) {
+        fragmentHostoryBinding = FragmentHostoryBinding.inflate(inflater,container,false);
+        return fragmentHostoryBinding.getRoot();
     }
 
     @Override
@@ -48,20 +49,26 @@ public class HistoryFragment extends BaseFragment implements HistoryView {
         initRecycler();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        fragmentHostoryBinding = null;
+    }
+
     private void initRecycler() {
         AppDatabase appDatabase = AppDatabase.getInstance(getContext());
         List<Data> dataList = appDatabase.dataDao().DATA_LIST();
 
         if (dataList.size() == 0) {
-            noData.setVisibility(View.VISIBLE);
+            fragmentHostoryBinding.noData.setVisibility(View.VISIBLE);
         } else {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),
                     LinearLayoutManager.VERTICAL, false);
-            recyclerView.setLayoutManager(linearLayoutManager);
-            recyclerView.setHasFixedSize(true);
+            fragmentHostoryBinding.recyclerview.setLayoutManager(linearLayoutManager);
+            fragmentHostoryBinding.recyclerview.setHasFixedSize(true);
             listAdapter = new ListAdapter(getContext(), dataList);
-            recyclerView.setAdapter(listAdapter);
-            noData.setVisibility(View.GONE);
+            fragmentHostoryBinding.recyclerview.setAdapter(listAdapter);
+            fragmentHostoryBinding.noData.setVisibility(View.GONE);
         }
     }
 }

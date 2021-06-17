@@ -3,6 +3,7 @@ package com.example.myscanner.base;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.collection.LongSparseArray;
@@ -60,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    protected abstract int getLayout();
+    protected abstract View getLayout();
 
     protected abstract void inject(ActivityComponent activityComponent);
 

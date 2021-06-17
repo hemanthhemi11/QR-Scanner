@@ -12,7 +12,6 @@ import androidx.collection.LongSparseArray;
 import androidx.fragment.app.Fragment;
 
 import com.example.myscanner.AndroidApplication;
-import com.example.myscanner.R;
 import com.example.myscanner.data.PreferenceManager;
 import com.example.myscanner.injection.component.ConfigPersistentComponent;
 import com.example.myscanner.injection.component.DaggerConfigPersistentComponent;
@@ -36,7 +35,6 @@ public abstract class BaseFragment extends Fragment {
     private static final LongSparseArray<ConfigPersistentComponent> componentsArray =
             new LongSparseArray<>();
     private static final AtomicLong NEXT_ID = new AtomicLong(0);
-    private Unbinder unbinder;
     private long fragmentId;
     private PreferenceManager mPref;
     private Toast toast;
@@ -71,13 +69,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayout(), container, false);
-        unbinder = ButterKnife.bind(this, view);
+        View view = getLayout(inflater, container, false);
         attachView();
         return view;
     }
 
-    protected abstract int getLayout();
+    protected abstract View getLayout(LayoutInflater inflater, ViewGroup container, boolean b);
 
     protected abstract void inject(FragmentComponent fragmentComponent);
 
@@ -112,6 +109,5 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         // unbind the view to free some memory
-        unbinder.unbind();
     }
 }

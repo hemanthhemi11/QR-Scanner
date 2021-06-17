@@ -2,6 +2,7 @@ package com.example.myscanner.ui.activity.home;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -9,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.myscanner.R;
 import com.example.myscanner.base.BaseActivity;
+import com.example.myscanner.databinding.ActivityMainBinding;
 import com.example.myscanner.injection.component.ActivityComponent;
 import com.example.myscanner.ui.fragment.history.HistoryFragment;
 import com.example.myscanner.ui.fragment.qr.QRFragment;
@@ -23,16 +25,18 @@ public class HomeActivity extends BaseActivity implements HomeActivityView,
     boolean exit = false;
     @Inject
     HomeActivityPresenter homeActivityPresenter;
+    ActivityMainBinding activityMainBinding;
 
-    @BindView(R.id.navigation)
-    BottomNavigationView bottomNavigationView;
+
     private int REQUEST_CODE_PERMISSIONS = 1001;
     private final String[] REQUIRED_PERMISSIONS = new String[]
             {"android.permission.CAMERA"};
 
     @Override
-    protected int getLayout() {
-        return R.layout.activity_main;
+    protected View getLayout() {
+        activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = activityMainBinding.getRoot();
+        return view;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class HomeActivity extends BaseActivity implements HomeActivityView,
         //loading the default fragment
         if(allPermissionsGranted()){
             loadFragment(new QRFragment());
-            bottomNavigationView.setOnNavigationItemSelectedListener(this);
+            activityMainBinding.navigation.setOnNavigationItemSelectedListener(this);
         } else{
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
         }
@@ -76,7 +80,7 @@ public class HomeActivity extends BaseActivity implements HomeActivityView,
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
                 loadFragment(new QRFragment());
-                bottomNavigationView.setOnNavigationItemSelectedListener(this);
+                activityMainBinding.navigation.setOnNavigationItemSelectedListener(this);
             } else {
                 Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
             }
